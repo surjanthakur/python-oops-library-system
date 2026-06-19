@@ -1,7 +1,7 @@
 class Library:
     def __init__(self):
-        library_books: list = []
-        borrowed_book_users: list[object] = []
+        self.library_books: list = []
+        self.borrowed_book_users: list[object] = []
 
     def add_book():
         pass
