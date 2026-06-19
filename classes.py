@@ -1,9 +1,14 @@
-from uuid import uuid4
+import secrets
+import string
+
+RANDOM_ID = " ".join(
+    secrets.choice(string.ascii_uppercase + string.digits) for _ in range(4)
+)
 
 
 class Book:
     def __init__(self):
-        self.__book_id = str(uuid4())
+        self.__book_id = RANDOM_ID
         self.__title: str
         self.__author: str
         self.__category: str
@@ -12,42 +17,36 @@ class Book:
 
 class Library:
     def __init__(self):
-        self.library_books: list[object] = []
-        self.borrowed_book_users: list[object] = []
+        self.__library_books: list[object] = []
+        self.__borrowed_book_users: list[object] = []
+        self.__all_transactions: list[object] = []
 
-    def add_book():
+    def register_new_book(self, new_book: Book, person: User):
         pass
 
-    def register_book():
+    def rent_new_book(self, book_id: str, book_title: str, person: User):
         pass
 
-    def issue_book():
+    def return_book(self, book: Book, person: User):
         pass
 
-    def accept_return():
+    def show_available_books(self):
         pass
 
-    def show_available_books():
+    def search_for_book(self, book_title: str):
         pass
 
 
 class User:
     def __init__(self, name: str):
-        self.__user_id = str(uuid4())
         self.__name = name
         self.__borrowed_books = []
-
-    def borrow_book():
-        pass
-
-    def return_book():
-        pass
 
     def show_my_books(self):
         if self.__borrowed_books:
             return self.__borrowed_books
         else:
-            return "oops! you shelf is empty📚"
+            return f"oops! {self.__name} you shelf is empty📚"
 
 
 class Student(User):
