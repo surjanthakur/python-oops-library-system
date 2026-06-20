@@ -70,10 +70,17 @@ class Library:
 
     def show_available_books(self):
         """gives you the list of Book object's"""
-        return self.__library_books
+        if self.__library_books:
+            return self.__library_books
+        else:
+            return "the library books shelf is empty"
 
     def search_for_book(self, book_title: str):
-        pass
+        for book in self.__library_books:
+            if book.title.strip().lower() == book_title.strip().lower():
+                return Book(book.title, book.author, book.category)
+            else:
+                return "oops! can't find the matching book"
 
 
 obj = Library()
