@@ -52,11 +52,6 @@ class Student(User):
         super().__init__(name)
 
 
-class Teacher(User):
-    def __init__(self, name: str):
-        super().__init__(name)
-
-
 class Transaction:
     def __init__(self):
         pass
