@@ -39,11 +39,21 @@ class User:
     def update_registered_book(self, book: Book):
         self.__registered_books.append(book)
 
-    def update_borrowed_book(self, book: Book):
+    def add_borrowed_book(self, book: Book):
         self.__borrowed_books.append(book)
+
+    def remove_borrowed_book(self, book: Book):
+        self.__borrowed_books.remove(book)
 
     def borrowed_books_count(self):
         return len(self.__borrowed_books)
+
+    def give_borrowed_book(self, title: str):
+        for book in self.__borrowed_books:
+            if book.title.strip().lower() == title.strip().lower():
+                return book
+            else:
+                return "don't match book name query 🤔"
 
 
 class Student(User):
@@ -52,8 +62,26 @@ class Student(User):
 
 
 class Transaction:
-    def __init__(self):
-        pass
+    def __init__(self, book: Book, person: User, issued_date: int):
+        self.book = book
+        self.person = person
+        self.issued_date = int(issued_date)
+        self.return_date = int(datetime.now().strftime("%d"))
+
+    def print_my_receipt(self):
+        days = (self.return_date - self.issued_date) + 1
+        total_fine = 0
+        if days > 6:
+            total_fine += days * 10
+
+        return f"""
+        book name : {self.book.title}
+        person who borrowed : {self.person.name}
+        book issued date: {self.issued_date}
+        book return date: {self.return_date}
+        total days : {days}
+        total fine : {total_fine}rs
+        """
 
 
 class Library:
@@ -83,7 +111,7 @@ class Library:
                     borrowed_book = Book(book.title, book.author, book.category)
                     borrowed_book.issue_date = datetime.now().strftime("%d")
                     borrowed_book.change_available()
-                    person.update_borrowed_book(borrowed_book)
+                    person.add_borrowed_book(borrowed_book)
                     self.__borrowed_book_users.append(person)
                     self.__library_books.remove(book)
                     return f"hy {person.name} you borrowed {borrowed_book.title} book on {borrowed_book.issue_date} you have 7 days to return otherwise there will be extra charges😎"
@@ -94,11 +122,21 @@ class Library:
     # return borrowed book method
     def return_book(self, book: Book, person: User):
         if book.check_book_status() == True:
-            return "wrong book to return😡"
+            return "wrong book to_return😡"
         else:
             for user in self.__borrowed_book_users:
                 if user.name.strip().lower() == person.name.strip().lower():
-                    pass
+                    book.change_available()
+                    self.__library_books.append(book)
+                    person.remove_borrowed_book(book)
+                    get_receipt = Transaction(
+                        book=book,
+                        person=person,
+                        issued_date=book.issue_date,
+                    )
+                    print(get_receipt.print_my_receipt())
+                else:
+                    return "wrong owner req to return_book 📕"
 
     # show all available books method
     def show_available_books(self):
@@ -124,23 +162,21 @@ b1 = Book("Atomic Habits", "James Clear", "Self Help")
 b2 = Book("The Alchemist", "Paulo Coelho", "Fiction")
 b3 = Book("Sapiens", "Yuval Noah Harari", "Non-Fiction")
 b4 = Book("The Psychology of Money", "Morgan Housel", "Finance")
-# b5 = Book("Dune", "Frank Herbert", "Science Fiction")
-# b6 = Book("Pride and Prejudice", "Jane Austen", "Classic")
-# b7 = Book("The Hobbit", "J.R.R. Tolkien", "Fantasy")
-# b8 = Book("Becoming", "Michelle Obama", "Memoir")
-# b9 = Book("Thinking, Fast and Slow", "Daniel Kahneman", "Psychology")
-# b10 = Book("The Catcher in the Rye", "J.D. Salinger", "Fiction")
+b5 = Book("Dune", "Frank Herbert", "Science Fiction")
+b6 = Book("Pride and Prejudice", "Jane Austen", "Classic")
+b7 = Book("The Hobbit", "J.R.R. Tolkien", "Fantasy")
+b8 = Book("Becoming", "Michelle Obama", "Memoir")
+b9 = Book("Thinking, Fast and Slow", "Daniel Kahneman", "Psychology")
+b10 = Book("The Catcher in the Rye", "J.D. Salinger", "Fiction")
 
 obj.register_new_book(b1, std1)
 obj.register_new_book(b2, std1)
 obj.register_new_book(b3, std1)
 obj.register_new_book(b4, std1)
-# obj.register_new_book(b5, std1)
-# obj.register_new_book(b6, std1)
-# obj.register_new_book(b7, std1)
-# obj.register_new_book(b8, std1)
-# obj.register_new_book(b9, std1)
+obj.register_new_book(b5, std1)
+obj.register_new_book(b6, std1)
+obj.register_new_book(b7, std1)
+obj.register_new_book(b8, std1)
+obj.register_new_book(b9, std1)
 
-print(obj.search_for_book("atomic habits"))
-print(obj.return_book(book=b1, person=std1))
-# print(obj.borrow_new_book("atomic habits", std1))
+[print(book) for book in obj.show_available_books()]
