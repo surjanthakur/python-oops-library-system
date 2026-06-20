@@ -3,10 +3,6 @@ from datetime import datetime
 
 
 class Book:
-    """
-    this class let's you create the Book object with some fields:
-    title:str , author:str , category:str
-    """
 
     def __init__(self, title: str, author: str, category: str):
         self.__book_id = str(uuid.uuid4())
