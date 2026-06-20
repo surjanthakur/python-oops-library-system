@@ -1,5 +1,6 @@
 import secrets
 import string
+from datetime import datetime
 
 RANDOM_ID = " ".join(
     secrets.choice(string.ascii_uppercase + string.digits) for _ in range(4)
@@ -22,7 +23,6 @@ class Book:
     def change_available(self):
         if self.__is_available == True:
             self.__is_available == False
-            print(f"available = {self.__is_available}")
         else:
             self.__is_available = True
 
@@ -35,7 +35,6 @@ class User:
         self.name = name
         self.__borrowed_books = []
         self.__registered_books = []
-        self._borrow_books_transactions = []
 
     def show_my_books(self):
         if self.__borrowed_books:
@@ -43,8 +42,11 @@ class User:
         else:
             return f"oops! {self.name} you shelf is empty📚"
 
-    def update_register_book(self, book: Book):
+    def update_registered_book(self, book: Book):
         self.__registered_books.append(book)
+
+    def update_borrowed_book(self, book: Book):
+        self.__borrowed_books.append(book)
 
     def borrowed_books_count(self):
         return len(self.__borrowed_books)
@@ -60,6 +62,11 @@ class Teacher(User):
         super().__init__(name)
 
 
+class Transaction:
+    def __init__(self):
+        pass
+
+
 class Library:
     def __init__(self):
         self.__library_books: list[object] = []
@@ -69,21 +76,26 @@ class Library:
 
     def register_new_book(self, new_book: Book, person: User):
         self.__library_books.append(new_book)
-        person.update_register_book(new_book)
+        person.update_registered_book(new_book)
         self.__registered_book_users.append(person)
         return f"thanks {person.name} to charity {new_book.title} book 📚"
 
     def borrow_new_book(self, book_title: str, person: User):
         if person.borrowed_books_count() >= 4:
-            print("maximum borrowing capacity reached return some book first!")
+            print("maximum borrow capacity reached return some books first!")
             return
+        else:
+            for book in self.__library_books:
+                if book.title.strip().lower() == book_title.strip().lower():
+                    borrowed_book = Book(book.title, book.author, book.category)
+                    borrowed_book.issue_date = datetime.now().strftime("%d")
+                    borrowed_book.change_available()
+                    person.update_borrowed_book(borrowed_book)
+                    self.__borrowed_book_users.append(person)
+                    return f"hy {person.name} you borrowed {borrowed_book.title} book on {borrowed_book.issue_date} you have 7 days to return otherwise there will be extra charges😎"
 
-        for book in self.__library_books:
-            if book.title.strip().lower() == book_title.strip().lower():
-                borrowed_book = Book(book.title, book.author, book.category)
-                borrowed_book.change_available()
-            else:
-                return "oops! can't find the matching book"
+                else:
+                    return "oops! can't find the matching book"
 
     def return_book(self, book: Book, person: User):
         pass
@@ -126,7 +138,6 @@ obj.register_new_book(b6, std1)
 obj.register_new_book(b7, std1)
 obj.register_new_book(b8, std1)
 obj.register_new_book(b9, std1)
-obj.register_new_book(b10, std1)
 
 print(obj.search_for_book("atomic habits"))
-obj.borrow_new_book("atomic habits", std1)
+print(obj.borrow_new_book("atomic habits", std1))
