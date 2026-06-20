@@ -17,7 +17,7 @@ class Book:
 
     def change_available(self):
         if self.__is_available == True:
-            self.__is_available == False
+            self.__is_available = False
         else:
             self.__is_available = True
 
@@ -87,6 +87,7 @@ class Library:
                     borrowed_book.change_available()
                     person.update_borrowed_book(borrowed_book)
                     self.__borrowed_book_users.append(person)
+                    self.__library_books.remove(book)
                     return f"hy {person.name} you borrowed {borrowed_book.title} book on {borrowed_book.issue_date} you have 7 days to return otherwise there will be extra charges😎"
 
                 else:
