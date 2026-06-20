@@ -17,6 +17,9 @@ class Book:
         else:
             self.__is_available = True
 
+    def check_book_status(self):
+        return self.__is_available
+
     def __str__(self):
         return f"{self.title} by {self.author}, category={self.category}, book_id={self.__book_id}"
 
@@ -73,8 +76,7 @@ class Library:
         """this method let's you borrow a book from library and return a msg."""
 
         if person.borrowed_books_count() >= 4:
-            print("maximum borrow capacity reached return some books first!")
-            return
+            return "maximum borrow capacity reached return some books first!"
         else:
             for book in self.__library_books:
                 if book.title.strip().lower() == book_title.strip().lower():
@@ -91,7 +93,12 @@ class Library:
 
     # return borrowed book method
     def return_book(self, book: Book, person: User):
-        pass
+        if book.check_book_status() == True:
+            return "wrong book to return😡"
+        else:
+            for user in self.__borrowed_book_users:
+                if user.name.strip().lower() == person.name.strip().lower():
+                    pass
 
     # show all available books method
     def show_available_books(self):
@@ -135,4 +142,5 @@ obj.register_new_book(b4, std1)
 # obj.register_new_book(b9, std1)
 
 print(obj.search_for_book("atomic habits"))
-print(obj.borrow_new_book("atomic habits", std1))
+print(obj.return_book(book=b1, person=std1))
+# print(obj.borrow_new_book("atomic habits", std1))
