@@ -19,6 +19,13 @@ class Book:
         self.category: str = category
         self.__is_available: bool = True
 
+    def change_available(self):
+        if self.__is_available == True:
+            self.__is_available == False
+            print(f"available = {self.__is_available}")
+        else:
+            self.__is_available = True
+
     def __str__(self):
         return f"{self.title} by {self.author}, category={self.category}, book_id={self.__book_id}"
 
@@ -28,6 +35,7 @@ class User:
         self.name = name
         self.__borrowed_books = []
         self.__registered_books = []
+        self._borrow_books_transactions = []
 
     def show_my_books(self):
         if self.__borrowed_books:
@@ -37,6 +45,9 @@ class User:
 
     def update_register_book(self, book: Book):
         self.__registered_books.append(book)
+
+    def borrowed_books_count(self):
+        return len(self.__borrowed_books)
 
 
 class Student(User):
@@ -62,20 +73,30 @@ class Library:
         self.__registered_book_users.append(person)
         return f"thanks {person.name} to charity {new_book.title} book 📚"
 
-    def borrow_new_book(self, book_id: str, book_title: str, person: User):
-        pass
+    def borrow_new_book(self, book_title: str, person: User):
+        if person.borrowed_books_count() >= 4:
+            print("maximum borrowing capacity reached return some book first!")
+            return
+
+        for book in self.__library_books:
+            if book.title.strip().lower() == book_title.strip().lower():
+                borrowed_book = Book(book.title, book.author, book.category)
+                borrowed_book.change_available()
+            else:
+                return "oops! can't find the matching book"
 
     def return_book(self, book: Book, person: User):
         pass
 
     def show_available_books(self):
-        """gives you the list of Book object's"""
+        """this method gives you the list of Book object's"""
         if self.__library_books:
             return self.__library_books
         else:
             return "the library books shelf is empty"
 
     def search_for_book(self, book_title: str):
+        "this methods let's you search the book by their title."
         for book in self.__library_books:
             if book.title.strip().lower() == book_title.strip().lower():
                 return Book(book.title, book.author, book.category)
@@ -106,3 +127,6 @@ obj.register_new_book(b7, std1)
 obj.register_new_book(b8, std1)
 obj.register_new_book(b9, std1)
 obj.register_new_book(b10, std1)
+
+print(obj.search_for_book("atomic habits"))
+obj.borrow_new_book("atomic habits", std1)
