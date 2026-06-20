@@ -1,10 +1,5 @@
-import secrets
-import string
+import uuid
 from datetime import datetime
-
-RANDOM_ID = " ".join(
-    secrets.choice(string.ascii_uppercase + string.digits) for _ in range(4)
-)
 
 
 class Book:
@@ -14,7 +9,7 @@ class Book:
     """
 
     def __init__(self, title: str, author: str, category: str):
-        self.__book_id = RANDOM_ID
+        self.__book_id = str(uuid.uuid4())
         self.title: str = title
         self.author: str = author
         self.category: str = category
