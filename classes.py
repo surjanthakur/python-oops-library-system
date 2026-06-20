@@ -89,7 +89,6 @@ class Library:
         self.__library_books: list[object] = []
         self.__borrowed_book_users: list[object] = []
         self.__registered_book_users: list[object] = []
-        self.__all_transactions: list[object] = []
 
     # add new book in library method
     def register_new_book(self, new_book: Book, person: User):
