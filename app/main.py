@@ -1,7 +1,6 @@
 from library import Library
 from book import Book
-from user import User, Student
-from transaction import Transaction
+from user import Student
 
 
 def message_display():
