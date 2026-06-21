@@ -9,7 +9,7 @@ def message_display():
                      👉🏻enter 3 to show all library books
                      👉🏻enter 4 to borrow a book from libarary:  
                      👉🏻enter 5 to return a book.
-                     👉🏻enter 108 to exit✅
+                     👉🏻enter 108 to exit ❌
                      """))
 
 
