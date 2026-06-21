@@ -14,7 +14,7 @@ class Library:
         self.__registered_book_users: set[User] = set()
 
     # add new book in library method
-    def register_new_book(self, new_book: Book, user: User):
+    def register_new_book(self, new_book: Book, user: User) -> str:
         self.__library_books.append(new_book)
         user.update_registered_book(new_book)
         self.__registered_book_users.add(user)
@@ -22,7 +22,7 @@ class Library:
         return f"thanks {user.name} to donating {new_book.title}📚"
 
     # borrow new book from library method
-    def borrow_new_book(self, book_title: str, person: User):
+    def borrow_new_book(self, book_title: str, person: User) -> str:
 
         if person.borrowed_books_count() >= self.MAX_BORROW_LIMIT:
             return "Borrow limit reached."
@@ -67,7 +67,7 @@ class Library:
         return get_receipt.print_my_receipt()
 
     #  return searched book
-    def search_for_book(self, title: str):
+    def search_for_book(self, title: str) -> Book:
         normalized_title = title.strip().lower()
 
         for book in self.__library_books:
