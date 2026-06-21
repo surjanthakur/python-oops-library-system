@@ -29,8 +29,6 @@ class User:
         for book in self.__borrowed_books:
             if book.title.strip().lower() == title.strip().lower():
                 return book
-            else:
-                return "don't match book name query 🤔"
 
 
 class Student(User):
