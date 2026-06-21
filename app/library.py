@@ -43,7 +43,7 @@ class Library:
 
                 return f"hy {person.name} you borrowed {book.title} book on {book.issue_date} you have 7 days to return otherwise there will be extra charges😎"
 
-        return "Book not found"
+        return None
 
     # return borrowed book method
     def return_new_book(self, book: Book, person: User):
@@ -73,7 +73,7 @@ class Library:
         for book in self.__library_books:
             if book.title.strip().lower() == normalized_title:
                 return book
-        return "Book Not Found"
+        return None
 
     # return all available books
     def show_available_books(self) -> list[Book]:
