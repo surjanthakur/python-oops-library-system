@@ -47,10 +47,10 @@ class Library:
 
     # return borrowed book method
     def return_new_book(self, book: Book, person: User):
-        if book.check_book_status():
+        if book.is_available:
             return "wrong book"
 
-        book.change_available()
+        book.is_available = True
 
         self.__library_books.append(book)
 
