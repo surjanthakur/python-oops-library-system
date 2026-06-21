@@ -14,17 +14,17 @@ class Library:
         self.__registered_book_users: set[User] = set()
 
     # add new book in library method
-    def register_new_book(self, new_book: Book, user: User) -> str:
-        self.__library_books.append(new_book)
-        user.update_registered_book(new_book)
+    def register_new_book(self, book: Book, user: User) -> str:
+        self.__library_books.append(book)
+        user.registered_books.append(book)
         self.__registered_book_users.add(user)
 
-        return f"thanks {user.name} to donating {new_book.title}📚"
+        return f"thanks {user.name} to donating {book.title}📚"
 
     # borrow new book from library method
     def borrow_new_book(self, book_title: str, person: User) -> str:
 
-        if person.borrowed_books_count() >= self.MAX_BORROW_LIMIT:
+        if len(person.borrowed_books) >= self.MAX_BORROW_LIMIT:
             return "Borrow limit reached."
 
         normalized_title = book_title.strip().lower()
@@ -33,9 +33,9 @@ class Library:
             if book.title.strip().lower() == normalized_title:
                 book.issue_date = datetime.now().strftime("%d")
 
-                book.change_available()
+                book.is_available = False
 
-                person.add_borrowed_book(book)
+                person.borrowed_books.append(book)
 
                 self.__borrowed_book_users.add(person)
 
@@ -54,9 +54,9 @@ class Library:
 
         self.__library_books.append(book)
 
-        person.remove_borrowed_book(book)
+        person.borrowed_books.remove(book)
 
-        if person.borrowed_books_count() == 0:
+        if len(person.borrowed_books) == 0:
             self.__borrowed_book_users.discard(person)
 
         get_receipt = Transaction(

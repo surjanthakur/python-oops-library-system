@@ -12,9 +12,11 @@ class User:
             return book
 
     def give_borrowed_book(self, title: str):
+        normelized_title = title.strip().lower()
         for book in self.borrowed_books:
-            if book.title.strip().lower() == title.strip().lower():
+            if book.title.strip().lower() == normelized_title:
                 return book
+        return None
 
 
 class Student(User):
