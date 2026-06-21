@@ -47,8 +47,8 @@ class Library:
 
     # return borrowed book method
     def return_new_book(self, book: Book, person: User):
-        if book.is_available:
-            return "wrong book"
+        if book not in person.borrowed_books:
+            return "wrong book return by user"
 
         book.is_available = True
 
