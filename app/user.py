@@ -6,8 +6,8 @@ class User:
     def __init__(self, name: str):
         self.user_id = str(uuid.uuid4())
         self.name = name
-        self.__borrowed_books = []
-        self.__registered_books = []
+        self.__borrowed_books: list[Book] = []
+        self.__registered_books: list[Book] = []
 
     def show_my_books(self):
         if self.__borrowed_books:
