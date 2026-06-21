@@ -10,6 +10,7 @@ def message_display():
                      👉🏻enter 3 to show all library books
                      👉🏻enter 4 to borrow a book from libarary:  
                      👉🏻enter 5 to return a book.
+                     👉🏻enter 108 to exit✅
                      """))
 
 
@@ -29,6 +30,11 @@ def main():
 
     while True:
         user_choice = message_display()
+
+        if user_choice == 108:
+            print("thanks for using our services.")
+            break
+
         if user_choice == 2:
             msg = main_library.register_new_book(new_book, new_user)
             print(msg)
