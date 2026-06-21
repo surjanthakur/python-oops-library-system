@@ -51,7 +51,7 @@ def main():
             title = input("enter book title: ")
             borrowed_book = new_user.give_borrowed_book(title)
             if borrowed_book:
-                main_library.return_book(borrowed_book, new_user)
+                main_library.register_new_book(borrowed_book, new_user)
             else:
                 print("can't find the matching book.")
 
