@@ -13,19 +13,19 @@ def message_display():
                      """))
 
 
+def create_book():
+    title = input("enter book title: ")
+    author = input("enter book author: ")
+    category = input("enter book category: ")
+    return Book(title, author, category)
+
+
 def main():
     main_library = Library()
 
     # creating user
     name = input("👉🏻Enter Your Name: ")
     new_user = User(name)
-
-    print("now we are creating book")
-    # creating book
-    title = input("enter book title: ")
-    author = input("enter book author: ")
-    category = input("enter book category: ")
-    new_book = Book(title, author, category)
 
     while True:
         user_choice = message_display()
@@ -35,7 +35,8 @@ def main():
             break
 
         if user_choice == 2:
-            msg = main_library.register_new_book(new_book, new_user)
+            book = create_book()
+            msg = main_library.register_new_book(book, new_user)
             print(msg)
             user_choice = message_display()
 
