@@ -1,6 +1,6 @@
 from library import Library
 from book import Book
-from user import Student
+from user import User
 
 
 def message_display():
@@ -17,8 +17,8 @@ def main():
     main_library = Library()
 
     # creating user
-    entered_name = input("👉🏻enter your name: ")
-    new_user = Student(entered_name)
+    name = input("👉🏻Enter Your Name: ")
+    new_user = User(name)
 
     print("now we are creating book")
     # creating book
